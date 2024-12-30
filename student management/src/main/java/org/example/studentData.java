@@ -17,7 +17,7 @@ public class studentData {
     private Double secondSem;
     private Double finals;
 
-    // MAKE SURE THAT SAME DATATYPE THAT YOU WILL PUT THERE
+    //same schema and datatype as in the database
     public studentData(Integer studentNum, String year, String course, String firstName, String lastName, String gender, Date birth, String status, String image) {
         this.studentNum = studentNum;
         this.year = year;
@@ -90,5 +90,4 @@ public class studentData {
         return finals;
     }
 
-    // PLEASE FOLLOW ME IF THE VARS ARE THE SAME TO ME
 }

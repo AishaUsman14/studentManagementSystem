@@ -45,7 +45,8 @@ public class FXMLDocumentController implements Initializable {
     private PreparedStatement prepare;
     private ResultSet result;
 
-//    NOW LETS CREATE OUR DATABASE : )
+
+    //creation of database
 
     private double x= 0 ;
     private double y= 0;
@@ -57,7 +58,7 @@ public class FXMLDocumentController implements Initializable {
         connect = database.connectDb();
 
         try{
-            // IT WORKS GOOD : ) NOW LETS DESIGN THE DASHBOARD FORM : )
+
             Alert alert;
 
             prepare = connect.prepareStatement(sql);
@@ -81,7 +82,7 @@ public class FXMLDocumentController implements Initializable {
                     alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information Message");
                     alert.setHeaderText(null);
-                    alert.setContentText("Successfully Login!");
+                    alert.setContentText("LOGIN SUCCESSFUL!");
                     alert.showAndWait();
 
 //                    TO HIDE THE LOGIN FORM
@@ -124,11 +125,9 @@ public class FXMLDocumentController implements Initializable {
         System.exit(0);
     }
 
-    //LETS NAME THE COMPONENTS ON LOGIN FORM : )
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
 }
