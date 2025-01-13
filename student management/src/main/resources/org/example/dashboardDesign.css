@@ -49,7 +49,7 @@
     -fx-cursor:hand;
 }
 .logout:hover{
-    -fx-background-color:#AB4459
+    -fx-background-color:#3AA6B9;
 }
 
 .shadow{
@@ -106,7 +106,6 @@
 .textfield{
     -fx-background-color:#FBF6E9;
     -fx-background-radius:4px;
-        -fx-background-color: ;
     -fx-border-width:.8px;
     -fx-font-family:"Tahoma";
     -fx-border-radius:4px;
@@ -183,11 +182,11 @@
 }
 /* Apply styles to your custom class `chartcolor` */
 .chartcolor .chart-series-line.default-color0 {
-    -fx-stroke: #F2075D; /* Bright pink for the first series */
+    -fx-stroke: #FF9EAA; /* Bright pink for the first series */
 }
 
 .chartcolor .chart-series-line.default-color1 {
-    -fx-stroke: #9B0038; /* Darker pink for the second series */
+    -fx-stroke: #FF9EAA; /* Darker pink for the second series */
 }
 
 .chartcolor .chart-series-line.default-color2 {
@@ -200,11 +199,11 @@
 
 /* For BarChart or charts with fills */
 .chartcolor .default-color0.chart-bar {
-    -fx-bar-fill: #F2075D; /* Bright pink for the first series */
+    -fx-bar-fill: #FFD0D0; /* Bright pink for the first series */
 }
 
 .chartcolor .default-color1.chart-bar {
-    -fx-bar-fill: #9B0038; /* Darker pink for the second series */
+    -fx-bar-fill: #FF9EAA; /* Darker pink for the second series */
 }
 
 .chartcolor .default-color2.chart-bar {
@@ -212,7 +211,7 @@
 }
 
 .chartcolor .default-color3.chart-bar {
-    -fx-bar-fill: #E83F79; /* Vibrant pink for the fourth series */
+    -fx-bar-fill: #FFD0D0; /* Vibrant pink for the fourth series */
 }
 
 /* Optional: Styling scatter symbols */
@@ -231,5 +230,8 @@
 .chartcolor .default-color3.chart-symbol {
     -fx-background-color: #E83F79; /* Vibrant pink */
 }
-
-/* NOW FINALLY WE FINISHED THE COMPONENTS, NOW LETS NAME ALL OF THEM : )*/
+#addStudents_insertBtn{
+-fx-font-family:"Arial";
+-fx-font-weight: bold;
+-fx-text-fill:#000000;
+}

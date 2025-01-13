@@ -75,7 +75,6 @@ public class FXMLDocumentController implements Initializable {
                 alert.showAndWait();
             }else{
                 if(result.next()){
-//                    THEN PROCEED TO DASHBOARD FORM
 
                     getData.username = username.getText();
 
@@ -85,9 +84,9 @@ public class FXMLDocumentController implements Initializable {
                     alert.setContentText("LOGIN SUCCESSFUL!");
                     alert.showAndWait();
 
-//                    TO HIDE THE LOGIN FORM
+                    //TO HIDE THE LOGIN FORM
                     loginBtn.getScene().getWindow().hide();
-                    //LINK YOUR DASHBOARD
+                    //LINK THE DASHBOARD
                     Parent root = FXMLLoader.load(getClass().getResource("dashboard.fxml"));
 
                     Stage stage = new Stage();
