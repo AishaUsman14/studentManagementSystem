@@ -31,7 +31,7 @@
                             <children>
                                 <AnchorPane layoutX="41.0" layoutY="-77.0" prefHeight="35.0" prefWidth="1100.0" styleClass="top-form" stylesheets="@dashboardDesign.css" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <children>
-                                        <FontAwesomeIconView glyphName="GRADUATION_CAP" layoutX="14.0" layoutY="24.0" size="1.5em" />
+                                        <FontAwesomeIconView glyphName="UNIVERSITY" layoutX="14.0" layoutY="24.0" size="1.5em" />
                                         <Label layoutX="45.0" layoutY="9.0" text="Student Management System">
                                             <font>
                                                 <Font name="Tahoma" size="15.0" />
@@ -294,7 +294,8 @@
                                                     <font>
                                                         <Font name="Tahoma" size="14.0" />
                                                     </font>
-                                                </Label>
+
+                                         .       </Label>
                                                 <DatePicker fx:id="addStudents_birth" layoutX="390.0" layoutY="388.0" prefWidth="166.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
                                                 <Label layoutX="337.0" layoutY="425.0" text="Status:">
                                                     <font>
@@ -424,7 +425,7 @@
                                                         <TableColumn fx:id="studentGrade_col_course" prefWidth="92.0" text="Course" />
                                                         <TableColumn fx:id="studentGrade_col_firstSem" prefWidth="109.0" text="First Sem" />
                                                         <TableColumn fx:id="studentGrade_col_secondSem" prefWidth="99.0" text="Second Sem" />
-                                                        <TableColumn fx:id="studentGrade_col_final" prefWidth="100.0" text="Final" />
+                                                        <TableColumn fx:id="studentGrade_col_final" prefWidth="100.0" text="Average" />
                                                     </columns>
                                                 </TableView>
                                                 <TextField fx:id="studentGrade_search" layoutX="14.0" layoutY="14.0" onKeyTyped="#studentGradesSearch" prefHeight="30.0" prefWidth="269.0" promptText="Search" styleClass="search" stylesheets="@dashboardDesign.css" />

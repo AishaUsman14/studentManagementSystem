@@ -575,7 +575,9 @@ public class dashboardController implements Initializable {
 
     public void addStudentsDelete() {
 
-        String deleteData = "DELETE FROM student WHERE studentNum = '"
+        String deleteGradeData = "DELETE FROM student_grade WHERE studentNum = '"
+                + addStudents_studentNum.getText() + "'";
+        String deleteStudentData = "DELETE FROM student WHERE studentNum = '"
                 + addStudents_studentNum.getText() + "'";
 
         connect = database.connectDb();
@@ -590,63 +592,55 @@ public class dashboardController implements Initializable {
                     || addStudents_gender.getSelectionModel().getSelectedItem() == null
                     || addStudents_birth.getValue() == null
                     || addStudents_status.getSelectionModel().getSelectedItem() == null
-                    || getData.path == null || getData.path == "") {
-                alert = new Alert(AlertType.ERROR);
+                    || getData.path == null || getData.path.isEmpty()) {
+
+                alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Please fill all blank fields");
                 alert.showAndWait();
+
             } else {
-                alert = new Alert(AlertType.CONFIRMATION);
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to DELETE Student number " + addStudents_studentNum.getText() + "?");
+                alert.setContentText("Are you sure you want to DELETE Student number "
+                        + addStudents_studentNum.getText() + "?");
 
                 Optional<ButtonType> option = alert.showAndWait();
 
-                if (option.get().equals(ButtonType.OK)) {
+                if (option.isPresent() && option.get() == ButtonType.OK) {
 
+                    // Delete related grades first
                     statement = connect.createStatement();
-                    statement.executeUpdate(deleteData);
+                    statement.executeUpdate(deleteGradeData);
 
-                    String checkData = "SELECT studentNum FROM student_grade "
-                            + "WHERE studentNum = '" + addStudents_studentNum.getText() + "'";
+                    // Delete the student record
+                    statement.executeUpdate(deleteStudentData);
 
-                    prepare = connect.prepareStatement(checkData);
-                    result = prepare.executeQuery();
-
-                    // IF THE STUDENT NUMBER EXISTS THEN PROCEED TO DELETE
-                    if (result.next()) {
-                        String deleteGrade = "DELETE FROM student_grade WHERE "
-                                + "studentNum = '" + addStudents_studentNum.getText() + "'";
-
-                        statement = connect.createStatement();
-                        statement.executeUpdate(deleteGrade);
-
-                    }// IF NOT THEN NVM
-
-                    alert = new Alert(AlertType.INFORMATION);
+                    alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information Message");
                     alert.setHeaderText(null);
                     alert.setContentText("Successfully Deleted!");
                     alert.showAndWait();
 
-                    // TO UPDATE THE TABLEVIEW
+                    // Update the TableView
                     addStudentsShowListData();
-                    // TO CLEAR THE FIELDS
+                    // Clear the fields
                     addStudentsClear();
-
-                } else {
-                    return;
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (connect != null) connect.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
     }
-
     public void addStudentsClear() {
         addStudents_studentNum.setText("");
         addStudents_year.getSelectionModel().clearSelection();
@@ -928,17 +922,13 @@ public class dashboardController implements Initializable {
     }
 
     public void availableCourseUpdate() {
-
-        String updateData = "UPDATE course SET description = '"
-                + availableCourse_description.getText() + "', degree = '"
-                + availableCourse_degree.getText() + "' WHERE course = '"
-                + availableCourse_course.getText() + "'";
-
+        String updateData = "UPDATE course SET description = ?, degree = ? WHERE course = ?";
         connect = database.connectDb();
 
         try {
             Alert alert;
 
+            // Validate input fields
             if (availableCourse_course.getText().isEmpty()
                     || availableCourse_description.getText().isEmpty()
                     || availableCourse_degree.getText().isEmpty()) {
@@ -947,17 +937,22 @@ public class dashboardController implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("Please fill all blank fields");
                 alert.showAndWait();
-            } else {
+                return;
+            }
 
-                alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to UPDATE Course: " + availableCourse_course.getText() + "?");
-                Optional<ButtonType> option = alert.showAndWait();
+            // User confirmation
+            alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to UPDATE Course: " + availableCourse_course.getText() + "?");
+            Optional<ButtonType> option = alert.showAndWait();
 
-                if (option.get().equals(ButtonType.OK)) {
-                    statement = connect.createStatement();
-                    statement.executeUpdate(updateData);
+            if (option.isPresent() && option.get().equals(ButtonType.OK)) {
+                try (PreparedStatement preparedStatement = connect.prepareStatement(updateData)) {
+                    preparedStatement.setString(1, availableCourse_description.getText());
+                    preparedStatement.setString(2, availableCourse_degree.getText());
+                    preparedStatement.setString(3, availableCourse_course.getText());
+                    preparedStatement.executeUpdate();
 
                     alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Information Message");
@@ -965,22 +960,16 @@ public class dashboardController implements Initializable {
                     alert.setContentText("Successfully Updated!");
                     alert.showAndWait();
 
-                    // TO UPDATE OUR TABLEVIEW ONCE THE DATA WE GAVE IS SUCCESSFUL
+                    // Update table view and clear fields
                     availableCourseShowListData();
-                    // TO CLEAR THE TEXT FIELDS
                     availableCourseClear();
-
-                } else {
-                    return;
                 }
-
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+
 
     public void availableCourseDelete() {
 
@@ -1117,7 +1106,7 @@ public class dashboardController implements Initializable {
 
             if (finalCheck1 == 0 || finalCheck2 == 0) {
                 finalResult = 0;
-            } else { // LIKE (X+Y)/2 AVE WE NEED TO FIND FOR FINALS
+            } else { // LIKE (X+Y)/2 AVG §WE NEED TO FIND FOR FINALS
                 finalResult = (Double.parseDouble(studentGrade_firstSem.getText())
                         + Double.parseDouble(studentGrade_secondSem.getText())) / 2;
             }
